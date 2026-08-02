@@ -44,7 +44,7 @@ struct Node* pop(struct Node* head) {
 }
 
 struct Node* insert(struct Node* head, void* data, int index) {
-  if (head == NULL && index > 0) {
+  if (head == NULL && index > 0 || index < 0) {
     fprintf(stderr, "Index out of scope\n");
     return head;
   }
@@ -68,6 +68,30 @@ struct Node* insert(struct Node* head, void* data, int index) {
   
   return head;
 }
+
+struct Node* delete(struct Node* head, int index) {
+  if (head == NULL || index < 0) {
+    fprintf(stderr, "Index out of scope\n");
+    return head;
+  }
+  if (index == 0) {
+    struct Node* next_node = head->next;
+    free(head);
+    if (next_node != NULL) {
+      next_node->prev = NULL;
+    }
+    return next_node;
+  }
+  
+  head->next = delete(head->next, --index);
+
+  if (head->next != NULL) {
+    head->next->prev = head;
+  }
+  
+  return head;
+}
+  
 
 struct Node* delete_node_by_value(struct Node* head, void* data, CompareFunc cmp){
   if (head == NULL) {
