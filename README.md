@@ -18,7 +18,7 @@ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=<path/to/compiler> -S . -B
 
 # Compile the project
 cmake --build ./build/
-
+```
 
 # Disclaimer
 This README.md is AI generated but the code is by me, I did not want to write the explenation of something that alredy exist and probably done better
