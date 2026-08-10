@@ -69,7 +69,7 @@ struct Node* insert(struct Node* head, void* data, int index) {
   return head;
 }
 
-struct Node* delete(struct Node* head, int index) {
+struct Node* delete_at_index(struct Node* head, int index) {
   if (head == NULL || index < 0) {
     fprintf(stderr, "Index out of scope\n");
     return head;
@@ -83,7 +83,7 @@ struct Node* delete(struct Node* head, int index) {
     return next_node;
   }
   
-  head->next = delete(head->next, --index);
+  head->next = delete_at_index(head->next, --index);
 
   if (head->next != NULL) {
     head->next->prev = head;

@@ -20,7 +20,7 @@ struct Node* pop(struct Node* head);
 
 struct Node* insert(struct Node* head, void* data, int index);
 
-struct Node* delete(struct Node* head, int index);
+struct Node* delete_at_index(struct Node* head, int index);
 
 void free_list(struct Node* head);
 
