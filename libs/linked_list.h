@@ -2,7 +2,8 @@
 #ifndef MY_LINKED_LIST 
 #define MY_LINKED_LIST
 
-typedef int (*CompareFunc)(void*, void*); 
+typedef int (*CompareFunc)(void*, void*);
+
 
 struct Node {
   void* data;
@@ -16,9 +17,11 @@ struct Node* append(struct Node* head, void* data);
 
 struct Node* delete_node_by_value(struct Node* head, void* data, CompareFunc cmp);
 
-struct Node* pop(struct Node* head);
+struct Node* pop_back(struct Node* head);
 
-struct Node* insert(struct Node* head, void* data, int index);
+struct Node* push(struct Node* head);
+
+struct Node* insert_at_index(struct Node* head, void* data, int index);
 
 struct Node* delete_at_index(struct Node* head, int index);
 
