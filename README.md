@@ -4,9 +4,8 @@ A lightweight, self-contained C implementation of a doubly linked list supportin
 
 ## 📦 Features
 - **Generic Doubly Linked List**: Stores arbitrary data via `void*` pointers
-- **Core Operations**: Append, insert at index, delete at index, pop (tail removal), delete by value
+- **Core Operations**: Append, insert at index, push, delete at index, pop back, delete by value
 - **Custom Comparators**: Value-based deletion using user-defined comparison functions
-- **Recursive Design**: Traversal and modification implemented recursively for clean control flow
 - **Standalone String Library**: Self-contained implementations of `strlen`, `strcpy`, and `strcmp`
 
 ## 🛠️ Build Instructions
