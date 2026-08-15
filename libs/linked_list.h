@@ -19,7 +19,7 @@ struct Node* delete_node_by_value(struct Node* head, void* data, CompareFunc cmp
 
 struct Node* pop_back(struct Node* head);
 
-struct Node* push(struct Node* head);
+struct Node* push(struct Node* head, void* data);
 
 struct Node* insert_at_index(struct Node* head, void* data, int index);
 

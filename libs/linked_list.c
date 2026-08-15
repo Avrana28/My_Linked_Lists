@@ -30,9 +30,26 @@ struct Node *append(struct Node *head, void *data) {
   return head;
 }
 
+struct Node* push(struct Node* head, void* data) {
+  if (head == NULL) {
+    head = create_node(data);
+    return head;
+  }
+  struct Node* new_node = create_node(data);
+  if (new_node == NULL)
+    return head;
+  head->prev = new_node;
+  new_node->next = head;
+  return new_node;
+}
+
 struct Node* pop_back(struct Node* head) {
   if (head == NULL) {
     fprintf(stderr, "No elements to pop\n");
+    return NULL;
+  }
+  if (head->next == NULL) {
+    free(head);
     return NULL;
   }
   struct Node *current = head;
@@ -81,55 +98,63 @@ struct Node* insert_at_index(struct Node *head, void *data, int index) {
 }
 
 struct Node* delete_at_index(struct Node* head, int index) {
-  if (index < 0)
+  if (index < 0 || head == NULL)
     return head;
-
-  struct Node *current = head;
-  int len = 1;
-  while (current->next != NULL && len < index) {
-    current = current->next;
-    len++;
+  if (index == 0) {
+    struct Node *new_head = head->next;
+    free(head);
+    if (new_head != NULL)
+      new_head->prev = NULL;
+    return new_head;
   }
-  if (len < index) {
-   fprintf(stderr, "Index out of scope.");
+  struct Node *current = head;
+  for (int i = 0; i < index && current != NULL; ++i) {
+    current = current->next;
+  }
+  if (current == NULL) {
+    fprintf(stderr, "Index %d  out of scope.", index);
    return head;
   }
-  if (current->prev != NULL) {
-    current->prev->next = current->next;
-  }
+
+  current->prev->next = current->next;
   if (current->next != NULL) {
     current->next->prev = current->prev;
   }
   free(current);
   return head;
-  // TODO: Fix some bugs
 }
   
 
 struct Node* delete_node_by_value(struct Node* head, void* data, CompareFunc cmp){
-  if (head == NULL) {
-    fprintf(stderr, "Value not Found");
-    return NULL;
-  }
-  if(cmp(head->data, data) == 0) {
-    struct Node* next_node = head->next;
-    free(head);
-    return next_node;
-  }
+  struct Node* current = head;
+  while (current != NULL) {
+    if (cmp(current->data, data) == 0) {
+      if (head == current) {
+        struct Node *new_head = head->next;
+        free(head);
+        new_head->prev = NULL;
+	return new_head;
+      }
 
-  head->next = delete_node_by_value(head->next, data, cmp);
-  if (head->next != NULL) {
-    head->next->prev = head;
+      current->prev->next = current->next;
+      if (current->next != NULL) {
+        current->next->prev = current->prev;
+      }
+      
+      free(current);
+      return head;
+    }
+    current = current->next;
   }
-
+  fprintf(stderr, "Value not found.");
   return head;
 }
 
-void free_list(struct Node* head) {
-  if (head == NULL) {
-    return;
+void free_list(struct Node *head) {
+  struct Node* current = head;
+  while (current != NULL) {
+    struct Node *next = current->next;
+    free(current);
+    current = next;
   }
-  struct Node* next = head->next;
-  free(head);
-  free_list(next);
 }
