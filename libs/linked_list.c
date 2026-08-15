@@ -3,18 +3,19 @@
 #include <stdlib.h>
 
 
-struct Node* create_node(void* data){
+struct Node* create_node(void* data, DataType type){
   struct Node* new = calloc(1, sizeof(struct Node));
   if (new == NULL) {
     fprintf(stderr, "Failed to allocate memory\n");
     return NULL;
   }
   new->data = data;
+  new->type = type;
   return new;
 }
 
-struct Node *append(struct Node *head, void *data) {
-  struct Node *new_node = create_node(data);
+struct Node *append(struct Node *head, void *data, DataType type) {
+  struct Node *new_node = create_node(data, type);
   if (new_node == NULL)
     return head;
   
@@ -30,12 +31,12 @@ struct Node *append(struct Node *head, void *data) {
   return head;
 }
 
-struct Node* push(struct Node* head, void* data) {
+struct Node* push(struct Node* head, void* data, DataType type) {
   if (head == NULL) {
-    head = create_node(data);
+    head = create_node(data, type);
     return head;
   }
-  struct Node* new_node = create_node(data);
+  struct Node* new_node = create_node(data, type);
   if (new_node == NULL)
     return head;
   head->prev = new_node;
@@ -62,9 +63,9 @@ struct Node* pop_back(struct Node* head) {
   return head;
 }
 
-struct Node* insert_at_index(struct Node *head, void *data, int index) {
+struct Node* insert_at_index(struct Node *head, void *data, int index, DataType type) {
   if (index < 0) return head;
-  struct Node *new_node = create_node(data);
+  struct Node *new_node = create_node(data, type);
   if (new_node == NULL)
     return head;
 
@@ -125,7 +126,7 @@ struct Node* delete_at_index(struct Node* head, int index) {
 }
   
 
-struct Node* delete_node_by_value(struct Node* head, void* data, CompareFunc cmp){
+struct Node* delete_node_by_value(struct Node* head, void* data, CompareFunc cmp) {
   struct Node* current = head;
   while (current != NULL) {
     if (cmp(current->data, data) == 0) {
@@ -148,6 +149,18 @@ struct Node* delete_node_by_value(struct Node* head, void* data, CompareFunc cmp
   }
   fprintf(stderr, "Value not found.");
   return head;
+}
+
+struct Node *get_node_at_index(const struct Node *head, int index) {
+  // TODO: make this
+}
+
+DataType get_node_type(const struct Node *node) {
+  return (node != NULL) ? node->type : TYPE_CUSTOM;
+}
+
+void print_node_data(const struct Node *node) {
+  // TODO: make this
 }
 
 void free_list(struct Node *head) {
