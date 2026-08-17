@@ -151,8 +151,18 @@ struct Node* delete_node_by_value(struct Node* head, void* data, CompareFunc cmp
   return head;
 }
 
-struct Node *get_node_at_index(const struct Node *head, int index) {
-  // TODO: make this
+
+struct Node* get_node_at_index(const struct Node *head, int index) {
+  if (head == NULL || index < 0) return NULL;
+  const struct Node* current = head;
+  for (int i = 0; i < index; ++i) {
+    current = current->next;
+    if (current == NULL) {
+      fprintf(stderr, "Index %d out of scope.", index);
+      return NULL;
+    }
+  }
+  return (struct Node*)current;
 }
 
 DataType get_node_type(const struct Node *node) {
@@ -160,7 +170,27 @@ DataType get_node_type(const struct Node *node) {
 }
 
 void print_node_data(const struct Node *node) {
-  // TODO: make this
+  if (node == NULL) return;
+  switch(node->type) {
+  case TYPE_INT:
+    printf("%d", (int *)node->data);
+    break;
+  case TYPE_FLOAT:
+    printf("%f", (float *)node->data);
+    break;
+  case TYPE_DOUBLE:
+    printf("%f", (double *)node->data);
+    break;
+  case TYPE_STRING:
+    printf("%s", *(char *)node->data);
+    break;
+  case TYPE_CUSTOM:
+    // TODO: Handle the print and flattening of the object
+    break;
+  default:
+    fprintf(stderr, "Corrupted data type");
+    break;
+  }
 }
 
 void free_list(struct Node *head) {
