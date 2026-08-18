@@ -21,6 +21,12 @@ struct Node {
   struct Node* prev;
 };
 
+struct Graph_Node {
+  void* data;
+  DataType type;
+  struct Node* connected_nodes;
+};
+
 struct Node* create_node(void* data, DataType type);
 
 struct Node* append(struct Node* head, void* data, DataType type);
