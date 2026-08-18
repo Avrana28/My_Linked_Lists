@@ -4,6 +4,8 @@
 
 typedef int (*CompareFunc)(void*, void*);
 
+typedef void (*PrintFunc)(const void*);
+
 typedef enum {
   TYPE_INT,
   TYPE_FLOAT,
@@ -37,7 +39,7 @@ struct Node* get_node_at_index(const struct Node* head, int index);
 
 DataType get_node_type(const struct Node *node);
 
-void print_node_data(const struct Node* node);
+void print_node_data(const struct Node* node, PrintFunc print_custom);
 
 void free_list(struct Node* head);
 

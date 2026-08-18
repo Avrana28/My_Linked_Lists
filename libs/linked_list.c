@@ -133,7 +133,9 @@ struct Node* delete_node_by_value(struct Node* head, void* data, CompareFunc cmp
       if (head == current) {
         struct Node *new_head = head->next;
         free(head);
-        new_head->prev = NULL;
+	if (new_head != NULL){
+	  new_head->prev = NULL;
+	}
 	return new_head;
       }
 
@@ -169,23 +171,27 @@ DataType get_node_type(const struct Node *node) {
   return (node != NULL) ? node->type : TYPE_CUSTOM;
 }
 
-void print_node_data(const struct Node *node) {
+void print_node_data(const struct Node *node, PrintFunc print_custom) {
   if (node == NULL) return;
   switch(node->type) {
   case TYPE_INT:
-    printf("%d", (int *)node->data);
+    printf("%d", *(int *)node->data);
     break;
   case TYPE_FLOAT:
-    printf("%f", (float *)node->data);
+    printf("%f", *(float *)node->data);
     break;
   case TYPE_DOUBLE:
-    printf("%f", (double *)node->data);
+    printf("%f", *(double *)node->data);
     break;
   case TYPE_STRING:
-    printf("%s", *(char *)node->data);
+    printf("%s", (char *)node->data);
     break;
   case TYPE_CUSTOM:
-    // TODO: Handle the print and flattening of the object
+    if (print_custom != NULL) {
+      print_custom(node->data);
+    } else {
+      printf("[Custom Data @ %p]", node->data);
+    }
     break;
   default:
     fprintf(stderr, "Corrupted data type");
