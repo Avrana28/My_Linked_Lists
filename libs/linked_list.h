@@ -56,9 +56,13 @@ void print_node_data(const struct Node* node, PrintFunc print_custom);
 
 void free_list(struct Node* head);
 
+struct Graph* create_graph(int is_directed);
+
 struct Graph_Node* add_vertex(struct Graph* graph, void* data, DataType type);
 
 void add_edge(struct Graph* graph, struct Graph_Node* from, struct Graph_Node* to);
+
+void free_graph(struct Graph* graph);
 
 #endif // MY_LINKED_LIST
 

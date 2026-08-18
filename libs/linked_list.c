@@ -208,6 +208,17 @@ void free_list(struct Node *head) {
   }
 }
 
+struct Graph* create_graph(int is_directed) {
+  struct Graph* graph = calloc(1, sizeof(struct Graph));
+  if (graph == NULL) {
+    fprintf(stderr, "Failed to allocate memory");
+    return NULL;
+  }
+  graph->all_vertices = NULL;
+  graph->is_directed = is_directed;
+  return graph;
+}
+
 struct Graph_Node* add_vertex(struct Graph* graph, void* data, DataType type) {
   struct Graph_Node* new_node = calloc(1, sizeof(struct Graph_Node));
   if (new_node == NULL) {
@@ -235,5 +246,20 @@ void add_edge(struct Graph* graph, struct Graph_Node* from, struct Graph_Node* t
   }
 
   return;
-  }
+}
 
+void free_graph(struct Graph* graph) {
+  if (graph == NULL) return;
+
+  struct Node* list = graph->all_vertices;
+  while (list != NULL) {
+    struct Graph_Node* current = (struct Graph_Node*)list->data;
+    if (current != NULL){
+      free_list(current->connected_nodes);
+      free(current);
+    }
+    list = list->next;
+  }
+  free_list(graph->all_vertices);
+  free(graph);
+}
