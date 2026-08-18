@@ -56,6 +56,9 @@ void print_node_data(const struct Node* node, PrintFunc print_custom);
 
 void free_list(struct Node* head);
 
-struct Graph_Node* add_graph_node(
+// struct Graph_Node* add_graph_node(
 
 #endif // MY_LINKED_LIST
+
+
+				  
