@@ -25,6 +25,13 @@ struct Graph_Node {
   void* data;
   DataType type;
   struct Node* connected_nodes;
+  int visited;
+};
+
+struct Graph {
+  struct Node* all_vertices;
+
+  int is_directed;
 };
 
 struct Node* create_node(void* data, DataType type);
@@ -48,5 +55,7 @@ DataType get_node_type(const struct Node *node);
 void print_node_data(const struct Node* node, PrintFunc print_custom);
 
 void free_list(struct Node* head);
+
+struct Graph_Node* add_graph_node(
 
 #endif // MY_LINKED_LIST
