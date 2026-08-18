@@ -207,3 +207,33 @@ void free_list(struct Node *head) {
     current = next;
   }
 }
+
+struct Graph_Node* add_vertex(struct Graph* graph, void* data, DataType type) {
+  struct Graph_Node* new_node = calloc(1, sizeof(struct Graph_Node));
+  if (new_node == NULL) {
+    fprintf(stderr, "Failed to allocate memory");
+    return NULL;
+  }
+  
+  new_node->data = data;
+  new_node->type = type;
+  
+  graph->all_vertices = append(graph->all_vertices, new_node, TYPE_CUSTOM);
+  return new_node;
+}
+
+void add_edge(struct Graph* graph, struct Graph_Node* from, struct Graph_Node* to) {
+  if (graph == NULL || from == NULL || to == NULL) {
+    fprintf(stderr, "Invalid function input");
+    return;
+  }
+  if (graph->is_directed == 1) {
+    from->connected_nodes = append(from->connected_nodes, to, TYPE_CUSTOM);
+  } else {
+    from->connected_nodes = append(from->connected_nodes, to, TYPE_CUSTOM);
+    to->connected_nodes = append(to->connected_nodes, from, TYPE_CUSTOM);
+  }
+
+  return;
+  }
+
