@@ -208,14 +208,16 @@ void free_list(struct Node *head) {
   }
 }
 
-struct Graph* create_graph(int is_directed) {
+struct Graph* create_graph(int is_directed, int is_weighted) {
   struct Graph* graph = calloc(1, sizeof(struct Graph));
   if (graph == NULL) {
     fprintf(stderr, "Failed to allocate memory");
+    free(graph);
     return NULL;
   }
   graph->all_vertices = NULL;
   graph->is_directed = is_directed;
+  graph->is_weighted = is_weighted;
   return graph;
 }
 
@@ -238,6 +240,9 @@ void add_edge(struct Graph* graph, struct Graph_Node* from, struct Graph_Node* t
     fprintf(stderr, "Invalid function input");
     return;
   }
+  if (graph->is_weighted == 1) {
+    return add_weighted_edge(graph, from, to, 1.0f);
+  }
   if (graph->is_directed == 1) {
     from->connected_nodes = append(from->connected_nodes, to, TYPE_CUSTOM);
   } else {
@@ -248,6 +253,44 @@ void add_edge(struct Graph* graph, struct Graph_Node* from, struct Graph_Node* t
   return;
 }
 
+void add_weighted_edge(struct Graph* graph, struct Graph_Node* from, struct Graph_Node* to, float weight) {
+  if (graph == NULL || from == NULL || to == NULL) {
+    fprintf(stderr, "Invalid function input");
+    return;
+  }
+  if (graph->is_weighted != 1) {
+    fprintf(stderr, "Graph is not weighted");
+    return;
+  }
+  if (graph->is_directed == 1) {
+    struct Edge* edge_to = calloc(1 sizeof(struct Edge));
+    if (edge_to == NULL) {
+      fprintf(stderr, "Failed to allocate memory,");
+      free(edge_to);
+      return;
+    }
+    edge_to->weight = weight;
+    edge_to->dest = to;
+    from->connected_nodes = append(from->connected_nodes, edge_to, TYPE_CUSTOM);
+  } else {
+    struct Edge* edge_to = calloc(1 sizeof(struct Edge));
+    struct Edge* edge_from = calloc(1 sizeof(struct Edge));
+    if (edge_to == NULL || edge_from == NULL) {
+      fprintf(stderr, "Failed to allocate memory,");
+      free(edge_to);
+      free(edge_from);
+      return;
+    }
+    edge_to->weight = weight;
+    edge_to->dest = to;
+    edge_from->weight = weight;
+    edge_from->dest = from;
+    from->connected_nodes = append(from->connected_nodes, edge_to, TYPE_CUSTOM);
+    to->connected_nodes = append(to->connected_nodes, edge_from, TYPE_CUSTOM);
+  }
+}
+  
+  
 void free_graph(struct Graph* graph) {
   if (graph == NULL) return;
 
@@ -255,11 +298,20 @@ void free_graph(struct Graph* graph) {
   while (list != NULL) {
     struct Graph_Node* current = (struct Graph_Node*)list->data;
     if (current != NULL){
+      if (graph->is_weighted == 1) {
+	struct Node* current_list = current->connected_nodes;
+	while (current_list != NULL) {
+	  struct Edge* current_edge = (struct Edge*)current_list->data;
+	  free(current_edge);
+	  current_list = current_list->next;
+	}
+      }
       free_list(current->connected_nodes);
       free(current);
-    }
-    list = list->next;
+      list = list->next;
   }
   free_list(graph->all_vertices);
   free(graph);
+  return;
 }
+

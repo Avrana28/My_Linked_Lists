@@ -30,8 +30,13 @@ struct Graph_Node {
 
 struct Graph {
   struct Node* all_vertices;
-
   int is_directed;
+  int is_weighted;
+};
+
+struct Edge {
+  float weight;
+  struct Graph_Node* dest;
 };
 
 struct Node* create_node(void* data, DataType type);
@@ -56,11 +61,13 @@ void print_node_data(const struct Node* node, PrintFunc print_custom);
 
 void free_list(struct Node* head);
 
-struct Graph* create_graph(int is_directed);
+struct Graph* create_graph(int is_directed, int is_weighted);
 
 struct Graph_Node* add_vertex(struct Graph* graph, void* data, DataType type);
 
 void add_edge(struct Graph* graph, struct Graph_Node* from, struct Graph_Node* to);
+
+void add_weighted_edge(struct Graph* graph, struct Graph_Node* from, struct Graph_Node* to, float weight);
 
 void free_graph(struct Graph* graph);
 
