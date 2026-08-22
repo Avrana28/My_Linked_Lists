@@ -263,7 +263,7 @@ void add_weighted_edge(struct Graph* graph, struct Graph_Node* from, struct Grap
     return;
   }
   if (graph->is_directed == 1) {
-    struct Edge* edge_to = calloc(1 sizeof(struct Edge));
+    struct Edge* edge_to = calloc(1, sizeof(struct Edge));
     if (edge_to == NULL) {
       fprintf(stderr, "Failed to allocate memory,");
       free(edge_to);
@@ -273,8 +273,8 @@ void add_weighted_edge(struct Graph* graph, struct Graph_Node* from, struct Grap
     edge_to->dest = to;
     from->connected_nodes = append(from->connected_nodes, edge_to, TYPE_CUSTOM);
   } else {
-    struct Edge* edge_to = calloc(1 sizeof(struct Edge));
-    struct Edge* edge_from = calloc(1 sizeof(struct Edge));
+    struct Edge* edge_to = calloc(1, sizeof(struct Edge));
+    struct Edge* edge_from = calloc(1, sizeof(struct Edge));
     if (edge_to == NULL || edge_from == NULL) {
       fprintf(stderr, "Failed to allocate memory,");
       free(edge_to);
@@ -313,5 +313,6 @@ void free_graph(struct Graph* graph) {
   free_list(graph->all_vertices);
   free(graph);
   return;
+  }
 }
 
