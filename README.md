@@ -1,23 +1,11 @@
 # C Doubly Linked List & String Utilities
 
-A lightweight, self-contained C implementation of a doubly linked list supporting generic data types, accompanied by a custom string utility library. Designed for educational purposes, low-level programming practice, and exploring manual memory management in C.
+A lightweight, self-contained C implementation of a doubly linked list supporting generic data types.
 
 ## 📦 Features
 - **Generic Doubly Linked List**: Stores arbitrary data via `void*` pointers
 - **Core Operations**: Append, insert at index, push, delete at index, pop back, delete by value
 - **Custom Comparators**: Value-based deletion using user-defined comparison functions
-- **Standalone String Library**: Self-contained implementations of `strlen`, `strcpy`, and `strcmp`
 
 ## 🛠️ Build Instructions
-This project uses CMake. Ensure you have a C compiler (GCC/Clang) and CMake installed.
-
-```bash
-# Create build directory and configure
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=<path/to/compiler> -S . -B ./build/
-
-# Compile the project
-cmake --build ./build/
-```
-
-# Disclaimer
-This README.md is AI generated but the code is by me, I did not want to write the explenation of something that alredy exist and probably done better
+Add this two files to your libs folder and link it in the standard way of CMake
